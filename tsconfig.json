@@ -1,0 +1,30 @@
+{
+  "extends": [
+    "@tsconfig/node22/tsconfig.json",
+    "@vue/tsconfig/tsconfig.json",
+  ],
+  "include": [
+    "resources/**/*.ts",
+    "resources/**/*.d.ts",
+    "resources/**/*.vue",
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "resources/js/*"
+      ]
+    },
+    "allowJs": true,
+    "strict": false,
+    "types": [
+      "node",
+      "vite/client", // Types for Vite-specific methods/accessors
+    ],
+    "noImplicitAny": false,
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+  ]
+}
