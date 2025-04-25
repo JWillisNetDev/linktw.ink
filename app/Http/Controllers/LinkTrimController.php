@@ -26,6 +26,6 @@ class LinkTrimController extends Controller
 
         $link->save();
 
-        return response(route('link.redirect', ['link' => $link->slug]), 201);
+        return response(route('link.redirect', ['slug' => $link->slug]), 201);
     }
 }

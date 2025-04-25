@@ -18,6 +18,7 @@ return new class extends Migration
             $table->softDeletes();
             $table->string('slug')->unique();
             $table->string('dest_url');
+            $table->unsignedBigInteger('clicks')->default(0);
             $table->foreignId('created_by_id')->nullable()->constrained('users')->nullOnDelete();
         });
     }

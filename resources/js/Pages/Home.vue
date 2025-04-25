@@ -1,6 +1,6 @@
 <template>
 
-  <Head title="Shorten Links" />
+  <Head title="Shorten Links"></Head>
 
   <div class="flex items-center justify-center min-h-screen">
     <div class="w-3/4 bg-white p-6 rounded-lg shadow-md">
@@ -19,6 +19,16 @@
           Shorten Link
         </button>
       </form>
+      <div class="mt-4 flex justify-center items-center" v-if="shortenedUrl">
+        <a :href="shortenedUrl" class="text-blue-500 font-bold hover:underline">
+          {{ shortenedUrl }}
+        </a>
+        <button
+          class="ml-2 text-gray-500 hover:text-gray-700"
+          @click="handleCopyToClipboard">
+          <FontAwesomeIcon :icon="faCopy" />
+        </button>
+      </div>
     </div>
   </div>
 </template>
@@ -26,21 +36,27 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { useLinkShortener } from '@/Composables/useLinkShortener';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { faCopy } from '@fortawesome/free-solid-svg-icons';
 
 const url = ref<string>('');
 const { isLoading, shortenLink } = useLinkShortener();
+const shortenedUrl = ref<string | null>(null);
 
 async function handleSubmit() {
   if (!url.value) {
     return;
   }
 
-  const shortened = await shortenLink(url.value);
-  if (shortened) {
-    alert(`Shortened URL: ${shortened}`);
-  } else {
-    alert('Failed to shorten the link. Please try again.');
+  shortenedUrl.value = await shortenLink(url.value);
+}
+
+async function handleCopyToClipboard() {
+  if (!shortenedUrl.value) {
+    return;
   }
+
+  await navigator.clipboard.writeText(shortenedUrl.value);
 }
 </script>
 
